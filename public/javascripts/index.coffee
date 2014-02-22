@@ -26,8 +26,46 @@ class LegislativeVote
     @description = ko.observable defaults.description
 
 class ScoreCard
-  @sessions = ko.observableArray []
-  @members = ko.observableArray []
+  constructor: ->
+    @sessions = ko.observableArray []
+    @selectedSession = ko.observable undefined
 
-  @selectedSession = ko.observable undefined
-  @selectedMember = ko.observable undefined
+    @members = ko.observableArray []
+    @selectedMember = ko.observable undefined
+
+    @selectedSession.subscribe (newSelectedSession) =>
+      gaodpRequest 'members', {sessionId: newSelectedSession._id()}, (memberData) =>
+        constructedMembers = for member in memberData
+          new LegislativeMember(member)
+
+        @members(constructedMembers)
+
+        if constructedMembers[0]?
+          @selectedMember(constructedMembers[0])
+
+gaodpRequest = (resource, data, callback) ->
+  if typeof data == 'function'
+    callback = data
+    data = undefined
+
+  urlForResource = 'http://gga.apis.gaodp.org/api/v1/' + resource
+
+  $.ajax
+    dataType: 'jsonp'
+    data: data
+    url: urlForResource
+    success: callback
+
+$(document).ready ->
+  scorecardModel = new ScoreCard
+  window.scorecardModel = scorecardModel
+  ko.applyBindings scorecardModel
+
+  gaodpRequest 'sessions', (sessionData) ->
+    constructedSessions = for session in sessionData
+      new LegislativeSession(session)
+
+    scorecardModel.sessions(constructedSessions)
+
+    if constructedSessions[0]?
+      scorecardModel.selectedSession(constructedSessions[0])
