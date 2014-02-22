@@ -33,15 +33,11 @@ block content
       
           h4 Voted Yea
 
-          ul
+          ul(data-bind="foreach: yea")
             li
-              time(datetime='2014-01-01') Jan 1, 2014
-              a(class='vote-description' href="#") PASSAGE
+              time(datetime='2014-01-01' data-bind='attr: {datetime: dateTime}, text: dateTime') Jan 1, 2014
+              a(class='vote-description' href="#" data-bind="text: caption") PASSAGE
 
-            li
-              time(datetime='2014-01-01') Jan 1, 2014
-              a(class='vote-description' href="#") PASSAGE
-          
           h4 Voted Nay
 
           ul

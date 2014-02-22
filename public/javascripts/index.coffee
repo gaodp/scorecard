@@ -1,9 +1,18 @@
 class LegislativeVote
-  constructor: (defaults = {}) ->
+  constructor: (defaults = {}, retrievalCallback) ->
     @_id = ko.observable defaults._id
     @caption = ko.observable defaults.caption
     @description = ko.observable defaults.description
     @dateTime = ko.observable defaults.dateTime
+
+    unless @caption()?
+      gaodpRequest "vote/#{@_id()}", (voteData) =>
+        @caption = voteData.caption
+        @description = voteData.description
+        @dateTime = voteData.dateTime
+
+        if retrievalCallback?
+          retrievalCallback(this)
 
 class LegislativeSession
   constructor: (defaults = {}) ->
@@ -22,6 +31,8 @@ class LegislativeMember
     @district = ko.observable defaults.district
     @city = ko.observable defaults.city
     @photoUri = ko.observable defaults.photoUri
+    @yea = ko.observableArray defaults.yea
+    @nay = ko.observableArray defaults.nay
 
     @fullName = ko.computed =>
       @firstName() + " " + @lastName()
@@ -42,15 +53,34 @@ class ScoreCard
     @members = ko.observableArray []
     @selectedMember = ko.observable undefined
 
+    @membersById = {}
+    @votesById = {}
+
     @selectedSession.subscribe (newSelectedSession) =>
       gaodpRequest 'members', {sessionId: newSelectedSession._id()}, (memberData) =>
         constructedMembers = for member in memberData
-          new LegislativeMember(member)
+          newMember = new LegislativeMember(member)
+          @membersById[memberData._id] = newMember
+
+          newMember
 
         @members(constructedMembers)
 
         if constructedMembers[0]?
           @selectedMember(constructedMembers[0])
+
+    @selectedMember.subscribe (newSelectedMember) =>
+      gaodpRequest "member/#{newSelectedMember._id()}/votes", (memberVoteData) =>
+        for voteKind in ["yea", "nay"]
+          newSelectedMember[voteKind]([])
+
+          for voteId in memberVoteData[voteKind]
+            if @votesById[voteId]?
+              newSelectedMember[voteKind].push @votesById[voteId]
+            else
+              newVote = new LegislativeVote {_id: voteId}, (builtVote) ->
+                newSelectedMember[voteKind].push builtVote
+              @votesById[voteId] = newVote
 
 gaodpRequest = (resource, data, callback) ->
   if typeof data == 'function'
