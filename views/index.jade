@@ -1,5 +1,57 @@
 extends layout
 
 block content
-  h1 GAODP Scorecard
-  p Welcome to Scorecard
+  h2 General Assembly Scorecard
+  
+  p
+    | View the voting records of members of the Georgia General Assembly categorized
+    | by the vote the member cast. Select a legislative session, then select a member
+    | from that session. After doing so you'll see their entire vote history across all
+    | sessions.
+
+  hr
+  
+  div(class='row')
+    div(class='col-md-3')
+      form(role='form')
+        div(class='form-group')
+          label(for='session-selection') Session
+          select(id='session-selection' class='form-control')
+            option(value='2013-2014') 2013-2014 Regular Session
+
+        div(class='form-group')
+          label(for='member-selection') Member
+          select(id='member-selection' class='form-control')
+            option(value='43043') Jimmy Dollars
+    
+    div(class='col-md-9')
+      div(class='row')
+        div(class='col-md-7 col-sm-9')
+          h3 Jimmy Dollars
+      
+          p D - Atlanta - District 12
+      
+          h4 Voted Yea
+
+          ul
+            li
+              time(datetime='2014-01-01') Jan 1, 2014
+              a(class='vote-description' href="#") PASSAGE
+
+            li
+              time(datetime='2014-01-01') Jan 1, 2014
+              a(class='vote-description' href="#") PASSAGE
+          
+          h4 Voted Nay
+
+          ul
+            li
+              time(datetime='2014-01-01') Jan 1, 2014
+              a(class='vote-description' href="#") PASSAGE
+
+            li
+              time(datetime='2014-01-01') Jan 1, 2014
+              a(class='vote-description' href="#") PASSAGE
+
+        div(class='col-md-2 hidden-sm hidden-xs')
+          img(src='http://img.costumecraze.com/images/vendors/incharacter/16021-Baby-Business-Costume-large.jpg' style='width: 200px')
