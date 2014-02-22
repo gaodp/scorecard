@@ -16,12 +16,12 @@ block content
       form(role='form')
         div(class='form-group')
           label(for='session-selection') Session
-          select(id='session-selection' class='form-control')
+          select(id='session-selection' class='form-control' data-bind='options: sessions, optionsText: \'name\', value: selectedSession')
             option(value='2013-2014') 2013-2014 Regular Session
 
         div(class='form-group')
           label(for='member-selection') Member
-          select(id='member-selection' class='form-control')
+          select(id='member-selection' class='form-control', data-bind="options: members, optionsText: 'fullName', value: selectedMember")
             option(value='43043') Jimmy Dollars
     
     div(class='col-md-9')
