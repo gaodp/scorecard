@@ -16,6 +16,9 @@ class LegislativeMember
     @city = ko.observable defaults.city
     @photoUri = ko.observable defaults.photoUri
 
+    @fullName = ko.computed =>
+      @firstName() + " " + @lastName()
+
 class LegislativeVote
   constructor: (defaults = {}) ->
     @_id = ko.observable defaults._id
