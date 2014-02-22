@@ -30,24 +30,16 @@ block content
           h3(data-bind='text: fullName') Jimmy Dollars
       
           p(data-bind="text: tagline") D - District 12 - Atlanta
-      
-          h4 Voted Yea
 
-          ul(data-bind="foreach: yea")
-            li
-              time(datetime='2014-01-01' data-bind='attr: {datetime: dateTime}, text: dateTime') Jan 1, 2014
-              a(class='vote-description' href="#" data-bind="text: caption") PASSAGE
+          each headline, voteKey in voteKeys
+            h4= headline
+              button(data-toggle='collapse' type='button' class='btn btn-default btn-xs' data-target='##{voteKey}') Show/Hide
 
-          h4 Voted Nay
-
-          ul
-            li
-              time(datetime='2014-01-01') Jan 1, 2014
-              a(class='vote-description' href="#") PASSAGE
-
-            li
-              time(datetime='2014-01-01') Jan 1, 2014
-              a(class='vote-description' href="#") PASSAGE
+            ul(data-bind="foreach: #{voteKey}" id=voteKey class="collapse")
+              li
+                time(datetime='2014-01-01' data-bind='attr: {datetime: dateTime}, text: friendlyDateTime') Jan 1, 2014
+                a(class='vote-caption' href="#" target="_blank" data-bind="text: caption, attr: {href: voteUrl}") PASSAGE
+                p(class='vote-description' data-bind="text: description") Some caption.
 
         div(class='col-md-3 hidden-sm hidden-xs')
           img(data-bind='attr: {src: photoUri}' style='width: 100%')

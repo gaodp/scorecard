@@ -1,3 +1,11 @@
 module.exports = (app) ->
   app.get '/', (req, res) ->
-    res.render 'index'
+    vars =
+      voteKeys:
+        yea: 'Voted Yea'
+        nay: 'Voted Nay'
+        excused: 'Excused'
+        notvoting: 'Not Voting'
+        unknown: 'Unknown'
+
+    res.render 'index', vars
