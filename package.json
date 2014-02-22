@@ -9,6 +9,7 @@
     "express": "3.3.5",
     "coffee-script": "1.7.1",
     "bower": "1.2.8",
+    "coffee-middleware": "0.2.1",
     "jade": "*",
     "stylus": "*"
   }
