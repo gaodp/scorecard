@@ -4,6 +4,8 @@ path = require('path')
 
 app = express();
 
+require('./routes/index')(app)
+
 # all environments
 app.set('port', process.env.PORT || 3000)
 app.set('views', __dirname + '/views')
