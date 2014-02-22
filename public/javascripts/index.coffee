@@ -19,6 +19,14 @@ class LegislativeMember
     @fullName = ko.computed =>
       @firstName() + " " + @lastName()
 
+    @tagline = ko.computed =>
+      partyAndDistrict = @party() + " - District " + @district()
+
+      if @city()?
+        partyAndDistrict += " - " + @city()
+
+      partyAndDistrict
+
 class LegislativeVote
   constructor: (defaults = {}) ->
     @_id = ko.observable defaults._id

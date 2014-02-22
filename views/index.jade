@@ -24,12 +24,12 @@ block content
           select(id='member-selection' class='form-control', data-bind="options: members, optionsText: 'fullName', value: selectedMember")
             option(value='43043') Jimmy Dollars
     
-    div(class='col-md-9')
-      div(class='row')
+    div(class='col-md-9' data-bind='if: selectedMember')
+      div(class='row' data-bind='with: selectedMember')
         div(class='col-md-7 col-sm-9')
-          h3 Jimmy Dollars
+          h3(data-bind='text: fullName') Jimmy Dollars
       
-          p D - Atlanta - District 12
+          p(data-bind="text: tagline") D - District 12 - Atlanta
       
           h4 Voted Yea
 
@@ -54,4 +54,4 @@ block content
               a(class='vote-description' href="#") PASSAGE
 
         div(class='col-md-2 hidden-sm hidden-xs')
-          img(src='http://img.costumecraze.com/images/vendors/incharacter/16021-Baby-Business-Costume-large.jpg' style='width: 200px')
+          img(data-bind='attr: {src: photoUri}' style='width: 200px')
