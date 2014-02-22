@@ -5,7 +5,7 @@ html
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
     meta(name='viewport' content='width=device-width, initial-scale=1')
 
-    title GAODP Scorecard
+    title Scorecard
 
     link(href='/bower/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet')
     link(href='/stylesheets/scorecard.css' rel='stylesheet')
@@ -25,14 +25,18 @@ html
               span(class='icon-bar')
               span(class='icon-bar')
 
-            a(class='navbar-brand' href='/') GAODP Scorecard
+            a(class='navbar-brand' href='/') GGA Scorecard
 
           div(class='navbar-collapse collapse')
             ul(class='nav navbar-nav')
               li
-                a(href='/') Link 1
+                a(href='http://gaodp.org' target="_blank") About
               li
-                a(href='/') Link 2
+                a(href='http://github.com/gaodp/scorecard' target="_blank") Contribute
+
+            ul(class='nav navbar-nav navbar-right')
+              li
+                a(href='http://gga.apis.gaodp.org' target="_blank") Powered by the GGA-API
 
       block content
 
