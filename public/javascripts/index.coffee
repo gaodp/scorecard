@@ -4,6 +4,13 @@ class LegislativeVote
     @caption = ko.observable defaults.caption
     @description = ko.observable defaults.description
     @dateTime = ko.observable defaults.dateTime
+    @assemblyId = ko.observable defaults.assemblyId
+
+    @friendlyDateTime = ko.computed =>
+      moment(@dateTime()).format("MMM Do, YYYY")
+
+    @voteUrl = ko.computed =>
+      "http://www.legis.ga.gov/Legislation/en-US/Vote.aspx?VoteID=#{@assemblyId()}"
 
     unless @caption()?
       gaodpRequest "vote/#{@_id()}", (voteData) =>
