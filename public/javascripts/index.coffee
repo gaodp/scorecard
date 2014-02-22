@@ -1,3 +1,10 @@
+class LegislativeVote
+  constructor: (defaults = {}) ->
+    @_id = ko.observable defaults._id
+    @caption = ko.observable defaults.caption
+    @description = ko.observable defaults.description
+    @dateTime = ko.observable defaults.dateTime
+
 class LegislativeSession
   constructor: (defaults = {}) ->
     @_id = ko.observable defaults._id
@@ -26,12 +33,6 @@ class LegislativeMember
         partyAndDistrict += " - " + @city()
 
       partyAndDistrict
-
-class LegislativeVote
-  constructor: (defaults = {}) ->
-    @_id = ko.observable defaults._id
-    @caption = ko.observable defaults.caption
-    @description = ko.observable defaults.description
 
 class ScoreCard
   constructor: ->
