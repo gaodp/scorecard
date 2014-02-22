@@ -33,6 +33,9 @@ class LegislativeMember
     @photoUri = ko.observable defaults.photoUri
     @yea = ko.observableArray defaults.yea
     @nay = ko.observableArray defaults.nay
+    @notvoting = ko.observableArray defaults.notvoting
+    @excused = ko.observableArray defaults.excused
+    @unknown = ko.observableArray defaults.unknown
 
     @fullName = ko.computed =>
       @firstName() + " " + @lastName()
@@ -71,16 +74,18 @@ class ScoreCard
 
     @selectedMember.subscribe (newSelectedMember) =>
       gaodpRequest "member/#{newSelectedMember._id()}/votes", (memberVoteData) =>
-        for voteKind in ["yea", "nay"]
-          newSelectedMember[voteKind]([])
+        for voteKind in ["yea", "nay", "notvoting", "excused", "unknown"]
+          continue unless memberVoteData[voteKind]?
 
-          for voteId in memberVoteData[voteKind]
-            if @votesById[voteId]?
-              newSelectedMember[voteKind].push @votesById[voteId]
+          constructedVotesForKind = for vote in memberVoteData[voteKind]
+            if @votesById[vote._id]?
+              @votesById[vote._id]
             else
-              newVote = new LegislativeVote {_id: voteId}, (builtVote) ->
-                newSelectedMember[voteKind].push builtVote
-              @votesById[voteId] = newVote
+              newVote = new LegislativeVote vote
+              @votesById[vote._id] = newVote
+              newVote
+
+          newSelectedMember[voteKind](constructedVotesForKind)
 
 gaodpRequest = (resource, data, callback) ->
   if typeof data == 'function'
