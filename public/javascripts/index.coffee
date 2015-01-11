@@ -118,5 +118,5 @@ $(document).ready ->
 
     scorecardModel.sessions(constructedSessions)
 
-    if constructedSessions[0]?
-      scorecardModel.selectedSession(constructedSessions[0])
+    for session in constructedSessions when session.current
+      scorecardModel.selectedSession(session)
